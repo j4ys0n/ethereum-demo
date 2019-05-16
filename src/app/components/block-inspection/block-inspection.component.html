@@ -1,0 +1,32 @@
+<h3>block details</h3>
+<div *ngIf="block !== undefined">
+  <ul>
+    <li>hash: {{block.hash}}</li>
+    <li>miner: {{block.miner}}</li>
+    <li>size: {{block.size}}</li>
+    <li>timestamp: {{formatTime(block.timestamp)}}</li>
+    <li>fees: {{gasToEth(block.gasUsed)}} eth</li>
+  </ul>
+  <h4>transactions</h4>
+  <ul class="tx-list">
+    <li *ngFor="let tx of block.transactions">
+      <span *ngIf="tx.creates === null && tx.input === '0x'">
+        <h5>ETHER TX</h5>
+        <div>{{ tx.from }} > {{ tx.to }}</div>
+        {{ formatEth(tx.value) }} ether
+      </span>
+      <span *ngIf="tx.creates !== null">
+        <h5>CONTRACT CREATED</h5>
+        {{ tx.creates }} - price {{ gasToEth(tx.gas) }} ether
+      </span>
+      <span *ngIf="tx.creates === null && tx.input !== '0x' && !isERC20Transfer(tx.input)">
+        <h5>CONTRACT INTERACTION</h5>
+      </span>
+      <span *ngIf="tx.creates === null && tx.input !== '0x' && isERC20Transfer(tx.input)">
+        <h5>TOKEN TRANSFER</h5>
+        <div>{{ tx.from }} > {{ getArguments(tx.input)[0] }}</div>
+        {{ formatTokenValue(getDecimals(tx.to), getArguments(tx.input)[1]) }} {{ getSymbol(tx.to) }} successful?: {{ getTxReceipt(tx.hash) }}
+      </span>
+    </li>
+  </ul>
+</div>

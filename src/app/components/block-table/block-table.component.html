@@ -1,0 +1,30 @@
+<h3>block list</h3>
+<mat-table #table [dataSource]="blocksDataSource">
+
+  <ng-container matColumnDef="number">
+    <mat-header-cell *matHeaderCellDef>number</mat-header-cell>
+    <mat-cell *matCellDef="let block">{{block.number}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="transactions">
+    <mat-header-cell *matHeaderCellDef>transactions</mat-header-cell>
+    <mat-cell *matCellDef="let block">{{block.transactions.length}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="eth-transferred">
+    <mat-header-cell *matHeaderCellDef>eth transferred</mat-header-cell>
+    <mat-cell *matCellDef="let block">{{ sumValues(block.transactions) }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="contracts-created">
+    <mat-header-cell *matHeaderCellDef>contracts created</mat-header-cell>
+    <mat-cell *matCellDef="let block">{{ contractsCreated(block.transactions) }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="contract-interactions">
+    <mat-header-cell *matHeaderCellDef>contract interactions</mat-header-cell>
+    <mat-cell *matCellDef="let block">{{ contractInteractions(block.transactions) }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="blockColumns"></mat-header-row>
+  <mat-row
+    *matRowDef="let row; columns: blockColumns;"
+    (click)="rowClick(row)"
+    [style.background]="(selectedRow === row) ? '#757575' : ''"></mat-row>
+</mat-table>
