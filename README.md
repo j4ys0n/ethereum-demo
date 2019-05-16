@@ -10,7 +10,7 @@ I prefer to use [nvm](https://github.com/nvm-sh/nvm).
 
 (`nvm ls` - and potentially `nvm install 11.2` or `nvm use 11.2`)
 
-`git clone `
+`git clone https://github.com/j4ys0n/ethereum-demo.git && cd ethereum-demo`
 
 `npm install`
 
